@@ -31,19 +31,19 @@ class Polyomino(object):
         return len(self.container)
 
     @property
-    def is_valid(self):
+    def is_full(self):
         return self.order == self.max_order
 
-    @property
-    def can_increase_order(self):
-        return self.order < self.max_order
 
-
-class PolyominoIsCompleteException(Exception):
+class PolyominoIsFullException(Exception):
     pass
 
 
 class PolyominoNotEmptyException(Exception):
+    pass
+
+
+class CellOutOfBoundsException(Exception):
     pass
 
 
@@ -52,7 +52,7 @@ def bootstrap(polyomino):
     :type polyomino: Polyomino
     """
     if polyomino.max_order == 0:
-        raise PolyominoIsCompleteException
+        raise PolyominoIsFullException
     if polyomino.order > 0:
         raise PolyominoNotEmptyException
 
@@ -65,31 +65,59 @@ def bootstrap(polyomino):
             yield Polyomino(new_container)
 
 
-def increase_order(polyomino):
-    """ supposes the polyomino's order can be increased
+def check_bounds(fun):
+    def wrap(container, x, y):
+        container_size = len(container)
+        if x < 0 or x >= container_size or y < 0 or y >= container_size:
+            raise CellOutOfBoundsException
+        else:
+            return fun(container, x, y)
+    return wrap
+
+
+@check_bounds
+def filled_neighbours(container, x, y):
+    container_side_size = len(container)
+
+    if x > 0 and not container[x-1][y]:
+        new_container = deepcopy(container)
+        new_container[x-1][y] = 1
+        yield new_container
+    if y > 0 and not container[x][y-1]:
+        new_container = deepcopy(container)
+        new_container[x][y-1] = 1
+        yield new_container
+    if x < container_side_size - 1 and not container[x+1][y]:
+        new_container = deepcopy(container)
+        new_container[x+1][y] = 1
+        yield new_container
+    if y < container_side_size - 1 and not container[x][y+1]:
+        new_container = deepcopy(container)
+        new_container[x][y+1] = 1
+        yield new_container
+
+
+def fill_polyomino(polyomino):
+    """
     :type polyomino: Polyomino
     """
-    if not polyomino.can_increase_order:
-        raise PolyominoIsCompleteException()
+    if polyomino.is_full:
+        raise PolyominoIsFullException
+    current_order = polyomino.order
+    for x in range(current_order):
+        for y in range(current_order):
+            if polyomino.container[x][y]:
+                for new_container in filled_neighbours(polyomino.container, x, y):
+                    new_polyomino = Polyomino(new_container)
+                    if new_polyomino.is_full:
+                        yield new_polyomino
+                    else:
+                        yield from fill_polyomino(new_polyomino)
 
-    max_order = polyomino.max_order
-    container = polyomino.container
-    for x in range(max_order):
-        for y in range(max_order):
-            if container[x][y]:
-                if x > 0 and not container[x-1][y]:
-                    new_container = deepcopy(container)
-                    new_container[x-1][y] = 1
-                    yield Polyomino(new_container)
-                if y > 0 and not container[x][y-1]:
-                    new_container = deepcopy(container)
-                    new_container[x][y-1] = 1
-                    yield Polyomino(new_container)
-                if x < max_order - 1 and not container[x+1][y]:
-                    new_container = deepcopy(container)
-                    new_container[x+1][y] = 1
-                    yield Polyomino(new_container)
-                if y < max_order - 1 and not container[x][y+1]:
-                    new_container = deepcopy(container)
-                    new_container[x][y+1] = 1
-                    yield Polyomino(new_container)
+
+def polyominoes(order):
+    c = [[] for _ in range(order)]
+    p = Polyomino(c)
+
+    for polyomino in bootstrap(p):
+        yield from fill_polyomino(polyomino)
