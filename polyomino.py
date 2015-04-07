@@ -103,9 +103,9 @@ def fill_polyomino(polyomino):
     """
     if polyomino.is_full:
         raise PolyominoIsFullException
-    current_order = polyomino.order
-    for x in range(current_order):
-        for y in range(current_order):
+    max_order = polyomino.max_order
+    for x in range(max_order):
+        for y in range(max_order):
             if polyomino.container[x][y]:
                 for new_container in filled_neighbours(polyomino.container, x, y):
                     new_polyomino = Polyomino(new_container)
