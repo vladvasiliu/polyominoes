@@ -4,6 +4,10 @@ from itertools import chain
 __author__ = 'vlad'
 
 
+def empty_container(order):
+    return [[0 for _ in range(order)] for _ in range(order)]
+
+
 class Polyomino(object):
     """ A polyomino is an array of bools.
     """
