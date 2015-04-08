@@ -79,3 +79,13 @@ def rotate(polyomino, times):
         new_container = deepcopy(container)
     
     return Polyomino(new_container)
+
+
+def reflect(polyomino):
+    old_container = polyomino.container
+    new_container = deepcopy(old_container)
+
+    for line in new_container:
+        line.reverse()
+
+    return Polyomino(new_container)
