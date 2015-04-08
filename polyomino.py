@@ -13,10 +13,7 @@ class Polyomino(object):
     """
     def __init__(self, container):
         self.container = container
-        order = len(container)
-        for line in container:
-            if not line:
-                line += [0] * order
+        self.max_order = len(container)
 
     def __repr__(self):
         result = ''
@@ -29,10 +26,6 @@ class Polyomino(object):
     @property
     def order(self):
         return sum(chain.from_iterable(self.container))
-
-    @property
-    def max_order(self):
-        return len(self.container)
 
     @property
     def is_full(self):
