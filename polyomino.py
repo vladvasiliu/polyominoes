@@ -120,7 +120,7 @@ def fill_polyomino(polyomino):
 
 
 def polyominoes(order):
-    c = [[] for _ in range(order)]
+    c = empty_container(order)
     p = Polyomino(c)
 
     for polyomino in bootstrap(p):
