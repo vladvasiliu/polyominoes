@@ -1,6 +1,6 @@
 from copy import deepcopy
 
-from polyomino import empty_container, Polyomino
+from polyominoes.polyomino import empty_container, Polyomino
 
 
 class TransformationOutOfBoundsException(Exception):
