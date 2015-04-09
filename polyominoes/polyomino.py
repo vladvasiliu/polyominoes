@@ -50,24 +50,6 @@ class CellOutOfBoundsException(Exception):
     pass
 
 
-def bootstrap(polyomino):
-    """
-    :type polyomino: Polyomino
-    """
-    if polyomino.max_order == 0:
-        raise PolyominoIsFullException
-    if polyomino.order > 0:
-        raise PolyominoNotEmptyException
-
-    max_order = polyomino.max_order
-    container = polyomino.container
-    for x in range(max_order):
-        for y in range(max_order):
-            new_container = deepcopy(container)
-            new_container[x][y] = 1
-            yield Polyomino(new_container)
-
-
 def check_bounds(fun):
     def wrap(container, x, y):
         container_size = len(container)
@@ -119,7 +101,9 @@ def fill_polyomino(polyomino):
 
 
 def polyominoes(order):
-    empty_polyomino = Polyomino(empty_container(order))
+    polyomino = Polyomino(empty_container(order))
 
-    for polyomino in bootstrap(empty_polyomino):
-        yield from fill_polyomino(polyomino)
+    center = int(order/2)
+    polyomino.container[center][center] = 1
+
+    yield from fill_polyomino(polyomino)

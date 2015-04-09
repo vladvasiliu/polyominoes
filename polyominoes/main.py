@@ -17,9 +17,10 @@ def count_polyominoes(order):
     return len(polyomino_list)
 
 
-MAX_ORDER = int(sys.argv[1])
-for current_order in range(2, MAX_ORDER+1):
-    START = datetime.datetime.now()
-    NUM = count_polyominoes(current_order)
-    DONE = (datetime.datetime.now() - START).total_seconds()
-    print("order: %s \t count: %s \t time: %ss" % (current_order, NUM, round(DONE)))
+# MAX_ORDER = int(sys.argv[1])
+# for current_order in range(2, MAX_ORDER+1):
+current_order = int(sys.argv[1])
+START = datetime.datetime.now()
+NUM = count_polyominoes(current_order)
+DONE = (datetime.datetime.now() - START).total_seconds()
+print("order: %s \t count: %s \t time: %ss" % (current_order, NUM, DONE))
