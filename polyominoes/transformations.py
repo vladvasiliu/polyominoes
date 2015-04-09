@@ -7,6 +7,11 @@ class TransformationOutOfBoundsException(Exception):
     pass
 
 
+def reflections(polyomino):
+    yield polyomino
+    yield reflect(polyomino)
+
+
 def translate(polyomino, delta_x, delta_y):
     old_container = polyomino.container
     container_size = len(old_container)
