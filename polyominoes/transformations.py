@@ -17,6 +17,17 @@ def rotations(polyomino):
         yield rotate(polyomino, times)
 
 
+def translations(polyomino):
+    order = polyomino.max_order
+
+    for x in range(-order + 1, order):
+        for y in range(-order + 1, order):
+            try:
+                yield translate(polyomino, x, y)
+            except TransformationOutOfBoundsException:
+                continue
+
+
 def translate(polyomino, delta_x, delta_y):
     old_container = polyomino.container
     container_size = len(old_container)
