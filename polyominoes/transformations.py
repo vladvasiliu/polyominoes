@@ -7,6 +7,12 @@ class TransformationOutOfBoundsException(Exception):
     pass
 
 
+def transformations(polyomino):
+    for reflected_polyomino in reflections(polyomino):
+        for rotated_polyomino in rotations(reflected_polyomino):
+            yield from translations(rotated_polyomino)
+
+
 def reflections(polyomino):
     yield polyomino
     yield reflect(polyomino)
