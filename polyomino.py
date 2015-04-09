@@ -9,7 +9,7 @@ def empty_container(order):
 
 
 class Polyomino(object):
-    """ A polyomino is an array of bools.
+    """ A polyomino is an array of booleans.
     """
     def __init__(self, container):
         self.container = container
