@@ -70,15 +70,13 @@ def rotate(polyomino, times):
     times %= 4
 
     if times == 1:
-        new_container = rotate_90(container)
+        return Polyomino(rotate_90(container))
     elif times == 2:
-        new_container = rotate_180(container)
+        return Polyomino(rotate_180(container))
     elif times == 3:
-        new_container = rotate_270(container)
+        return Polyomino(rotate_270(container))
     else:
-        new_container = deepcopy(container)
-
-    return Polyomino(new_container)
+        return polyomino
 
 
 def reflect(polyomino):
