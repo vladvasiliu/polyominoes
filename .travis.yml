@@ -3,3 +3,8 @@ python:
     - "3.4"
 install: "pip install ."
 script: nosetests
+
+before_install:
+    pip install codecov
+after_success:
+    codecov
