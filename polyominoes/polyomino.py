@@ -23,6 +23,12 @@ class Polyomino(object):
             result += '\n'
         return result
 
+    def __eq__(self, other):
+        try:
+            return self.container == other.container
+        except AttributeError:
+            return False
+
     @property
     def order(self):
         return sum(chain.from_iterable(self.container))
