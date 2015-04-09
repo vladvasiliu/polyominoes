@@ -113,8 +113,7 @@ def fill_polyomino(polyomino):
 
 
 def polyominoes(order):
-    c = empty_container(order)
-    p = Polyomino(c)
+    empty_polyomino = Polyomino(empty_container(order))
 
-    for polyomino in bootstrap(p):
+    for polyomino in bootstrap(empty_polyomino):
         yield from fill_polyomino(polyomino)
