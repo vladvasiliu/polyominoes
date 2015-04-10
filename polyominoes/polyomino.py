@@ -4,8 +4,8 @@ from itertools import chain
 __author__ = 'vlad'
 
 
-def empty_container(order):
-    return [[0 for _ in range(order)] for _ in range(order)]
+def empty_container(size):
+    return [[0 for _ in range(size)] for _ in range(size)]
 
 
 class Polyomino(object):
@@ -13,7 +13,7 @@ class Polyomino(object):
     """
     def __init__(self, container):
         self.container = container
-        self.max_order = len(container)
+        self.max_order = int(len(container)/2)
 
     def __repr__(self):
         result = ''
@@ -51,16 +51,16 @@ class CellOutOfBoundsException(Exception):
 
 
 def filled_neighbours(container, x, y):
-    container_size = len(container)
+    container_size = int(len(container))
 
-    if x < 0 or x >= container_size or y < 0 or y >= container_size:
+    if x < -container_size or x >= container_size or y < -container_size or y >= container_size:
         raise CellOutOfBoundsException
 
-    if x > 0 and not container[x-1][y]:
+    if x > -container_size and not container[x-1][y]:
         new_container = deepcopy(container)
         new_container[x-1][y] = 1
         yield new_container
-    if y > 0 and not container[x][y-1]:
+    if y > -container_size and not container[x][y-1]:
         new_container = deepcopy(container)
         new_container[x][y-1] = 1
         yield new_container
@@ -81,18 +81,19 @@ def fill_polyomino(polyomino):
     if polyomino.is_full:
         raise PolyominoIsFullException
 
-    for x in range(polyomino.max_order):
-        for y in range(polyomino.max_order):
+    order = polyomino.max_order
+
+    for x in range(-order, order):
+        for y in range(-order, order):
             if polyomino.container[x][y]:
                 for container in filled_neighbours(polyomino.container, x, y):
                     yield Polyomino(container)
 
 
 def first_polyomino(order):
-    polyomino = Polyomino(empty_container(order))
+    polyomino = Polyomino(empty_container(2*order))
 
-    center = int(order/2)
-    polyomino.container[center][center] = 1
+    polyomino.container[order][order] = 1
 
     return polyomino
 
