@@ -18,14 +18,14 @@ def unique_polyominoes(polyomino_iter):
 def polyominoes(order):
     polyomino = first_polyomino(order)
 
-    polyominoes = [polyomino]
+    polyomino_list = [polyomino]
 
     if order == 1:
-        return polyominoes
+        return polyomino_list
 
     for o in range(2, order+1):
         new_list = []
-        for polyomino in polyominoes:
+        for polyomino in polyomino_list:
             new_list.extend(fill_polyomino(polyomino, max_order=o))
-        polyominoes = unique_polyominoes(new_list)
-    return list(polyominoes)
+        polyomino_list = unique_polyominoes(new_list)
+    return list(polyomino_list)
