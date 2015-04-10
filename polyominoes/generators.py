@@ -10,7 +10,7 @@ def polyomino_in_list(polyomino, polyomino_list):
 
 
 def unique_polyominoes(polyomino_iter):
-    """ returns unique polyominoes from an interable containing polyominoes """
+    """ returns unique polyominoes from an iterable containing polyominoes """
     polyomino_list = list()
 
     for polyomino in polyomino_iter:

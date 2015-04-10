@@ -96,4 +96,3 @@ def first_polyomino(order):
     polyomino.container[order][order] = 1
 
     return polyomino
-
