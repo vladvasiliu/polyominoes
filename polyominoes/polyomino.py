@@ -82,28 +82,35 @@ def filled_neighbours(container, x, y):
         yield new_container
 
 
-def fill_polyomino(polyomino):
+def fill_polyomino(polyomino, max_order=None):
     """
     :type polyomino: Polyomino
     """
     if polyomino.is_full:
         raise PolyominoIsFullException
-    max_order = polyomino.max_order
-    for x in range(max_order):
-        for y in range(max_order):
+
+    if max_order:
+        max_order = min(polyomino.max_order, max_order)
+    else:
+        max_order = polyomino.max_order
+
+    for x in range(polyomino.max_order):
+        for y in range(polyomino.max_order):
             if polyomino.container[x][y]:
                 for new_container in filled_neighbours(polyomino.container, x, y):
                     new_polyomino = Polyomino(new_container)
-                    if new_polyomino.is_full:
+                    if new_polyomino.order == max_order:
                         yield new_polyomino
                     else:
-                        yield from fill_polyomino(new_polyomino)
+                        yield from fill_polyomino(new_polyomino, max_order)
 
 
-def polyominoes(order):
+def first_polyomino(order):
     polyomino = Polyomino(empty_container(order))
 
     center = int(order/2)
     polyomino.container[center][center] = 1
 
-    yield from fill_polyomino(polyomino)
+    return polyomino
+
+
