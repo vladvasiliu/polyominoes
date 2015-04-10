@@ -2,15 +2,19 @@ from polyominoes.polyomino import first_polyomino, fill_polyomino
 from polyominoes.transformations import transformations
 
 
+def polyomino_in_list(polyomino, polyomino_list):
+    for transformed_polyomino in transformations(polyomino):
+        if transformed_polyomino in polyomino_list:
+            return True
+    return False
+
+
 def unique_polyominoes(polyomino_iter):
     """ returns unique polyominoes from an interable containing polyominoes """
     polyomino_list = list()
 
     for polyomino in polyomino_iter:
-        for transformed_polyomino in transformations(polyomino):
-            if transformed_polyomino in polyomino_list:
-                break
-        else:
+        if not polyomino_in_list(polyomino, polyomino_list):
             polyomino_list.append(polyomino)
             yield polyomino
 
