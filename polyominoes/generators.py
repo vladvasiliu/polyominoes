@@ -27,7 +27,7 @@ def polyominoes(order):
     if order == 1:
         return polyomino_list
 
-    for _order in range(2, order+1):
+    for _ in range(2, order+1):
         new_list = []
         for polyomino in polyomino_list:
             new_list.extend(fill_polyomino(polyomino))
