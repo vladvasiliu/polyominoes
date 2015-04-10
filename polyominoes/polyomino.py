@@ -50,19 +50,11 @@ class CellOutOfBoundsException(Exception):
     pass
 
 
-def check_bounds(fun):
-    def wrap(container, x, y):
-        container_size = len(container)
-        if x < 0 or x >= container_size or y < 0 or y >= container_size:
-            raise CellOutOfBoundsException
-        else:
-            return fun(container, x, y)
-    return wrap
-
-
-@check_bounds
 def filled_neighbours(container, x, y):
-    container_side_size = len(container)
+    container_size = len(container)
+
+    if x < 0 or x >= container_size or y < 0 or y >= container_size:
+        raise CellOutOfBoundsException
 
     if x > 0 and not container[x-1][y]:
         new_container = deepcopy(container)
@@ -72,37 +64,28 @@ def filled_neighbours(container, x, y):
         new_container = deepcopy(container)
         new_container[x][y-1] = 1
         yield new_container
-    if x < container_side_size - 1 and not container[x+1][y]:
+    if x < container_size - 1 and not container[x+1][y]:
         new_container = deepcopy(container)
         new_container[x+1][y] = 1
         yield new_container
-    if y < container_side_size - 1 and not container[x][y+1]:
+    if y < container_size - 1 and not container[x][y+1]:
         new_container = deepcopy(container)
         new_container[x][y+1] = 1
         yield new_container
 
 
-def fill_polyomino(polyomino, max_order=None):
+def fill_polyomino(polyomino):
     """
     :type polyomino: Polyomino
     """
     if polyomino.is_full:
         raise PolyominoIsFullException
 
-    if max_order:
-        max_order = min(polyomino.max_order, max_order)
-    else:
-        max_order = polyomino.max_order
-
     for x in range(polyomino.max_order):
         for y in range(polyomino.max_order):
             if polyomino.container[x][y]:
-                for new_container in filled_neighbours(polyomino.container, x, y):
-                    new_polyomino = Polyomino(new_container)
-                    if new_polyomino.order == max_order:
-                        yield new_polyomino
-                    else:
-                        yield from fill_polyomino(new_polyomino, max_order)
+                for container in filled_neighbours(polyomino.container, x, y):
+                    yield Polyomino(container)
 
 
 def first_polyomino(order):
@@ -112,5 +95,4 @@ def first_polyomino(order):
     polyomino.container[center][center] = 1
 
     return polyomino
-
 

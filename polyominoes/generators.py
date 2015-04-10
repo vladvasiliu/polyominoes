@@ -30,6 +30,6 @@ def polyominoes(order):
     for _order in range(2, order+1):
         new_list = []
         for polyomino in polyomino_list:
-            new_list.extend(fill_polyomino(polyomino, max_order=_order))
+            new_list.extend(fill_polyomino(polyomino))
         polyomino_list = unique_polyominoes(new_list)
     return list(polyomino_list)
