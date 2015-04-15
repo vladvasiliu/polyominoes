@@ -74,7 +74,7 @@ def filled_neighbours(container, x, y):
         yield new_container
 
 
-def fill_polyomino(polyomino):
+def children(polyomino):
     """
     :type polyomino: Polyomino
     """

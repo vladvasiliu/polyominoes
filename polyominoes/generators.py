@@ -1,4 +1,4 @@
-from polyominoes.polyomino import first_polyomino, fill_polyomino
+from polyominoes.polyomino import first_polyomino, children
 from polyominoes.transformations import transformations
 
 
@@ -30,6 +30,6 @@ def polyominoes(order):
     for _ in range(2, order+1):
         new_list = []
         for polyomino in polyomino_list:
-            new_list.extend(fill_polyomino(polyomino))
+            new_list.extend(children(polyomino))
         polyomino_list = unique_polyominoes(new_list)
     return list(polyomino_list)
