@@ -104,6 +104,23 @@ def first(container):
     raise EmptyContainerException
 
 
+def traverse_polyomino(polyomino):
+    container = polyomino.container
+    _x, _y = first(container)
+
+    yield _x, _y
+
+    visited = [(_x, _y)]
+
+    def fun(container, x, y):
+        for _x, _y in neighbours(container, x, y):
+            if (_x, _y) not in visited and container[_y][_x]:
+                visited.append((_x, _y))
+                yield _x, _y
+                yield from fun(container, _x, _y)
+    yield from fun(container, _x, _y)
+
+
 def children(polyomino):
     """ The children of a polyomino p are all the polyominoes obtained by adding one square to p.
     :type polyomino: Polyomino
