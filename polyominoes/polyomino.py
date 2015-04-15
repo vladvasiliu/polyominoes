@@ -50,32 +50,34 @@ class CellOutOfBoundsException(Exception):
     pass
 
 
-def filled_neighbours(container, x, y):
+def neighbours(container, x, y):
+    """ Get the neighbours of the cell with coordinates (x,y).
+    """
     container_size = int(len(container))
 
     if x < -container_size or x >= container_size or y < -container_size or y >= container_size:
         raise CellOutOfBoundsException
 
-    if x > -container_size and not container[x-1][y]:
-        new_container = deepcopy(container)
-        new_container[x-1][y] = 1
-        yield new_container
-    if y > -container_size and not container[x][y-1]:
-        new_container = deepcopy(container)
-        new_container[x][y-1] = 1
-        yield new_container
-    if x < container_size - 1 and not container[x+1][y]:
-        new_container = deepcopy(container)
-        new_container[x+1][y] = 1
-        yield new_container
-    if y < container_size - 1 and not container[x][y+1]:
-        new_container = deepcopy(container)
-        new_container[x][y+1] = 1
-        yield new_container
+    if x > -container_size:
+        yield x-1, y
+    if y > -container_size:
+        yield x, y-1
+    if x < container_size - 1:
+        yield x+1, y
+    if y < container_size - 1:
+        yield x, y+1
+
+
+def filled_neighbours(container, x, y):
+    for new_x, new_y in neighbours(container, x, y):
+        if not container[new_x][new_y]:
+            new_container = deepcopy(container)
+            new_container[new_x][new_y] = 1
+            yield new_container
 
 
 def children(polyomino):
-    """
+    """ The children of a polyomino p are all the polyominoes obtained by adding one square to p.
     :type polyomino: Polyomino
     """
     if polyomino.is_full:
