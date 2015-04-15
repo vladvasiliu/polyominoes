@@ -20,7 +20,7 @@ def unique_polyominoes(polyomino_iter):
 
 
 def polyominoes(order):
-    polyomino = first_polyomino(1)
+    polyomino = first_polyomino()
 
     polyomino_list = [polyomino]
 

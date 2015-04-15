@@ -89,7 +89,7 @@ def child_container(container):
         insert_pos = 0
     else:
         insert_pos = order
-    
+
     for line in new_container:
         line.insert(insert_pos, 0)
 
@@ -101,8 +101,7 @@ def first(container):
         for x in range(order):
             if container[y][x]:
                 return x, y
-    else:
-        raise EmptyContainerException
+    raise EmptyContainerException
 
 
 def children(polyomino):
@@ -131,7 +130,7 @@ def children(polyomino):
         yield Polyomino(_nc)
 
 
-def first_polyomino(order):
+def first_polyomino():
     polyomino = Polyomino(empty_container(1))
 
     polyomino.container[0][0] = 1
