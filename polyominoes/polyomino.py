@@ -1,5 +1,6 @@
 from copy import deepcopy
 from itertools import chain
+from operator import itemgetter
 
 __author__ = 'vlad'
 
@@ -13,7 +14,8 @@ class Polyomino(object):
     """
     def __init__(self, container):
         self.container = container
-        self.max_order = int(len(container)/2)
+        # self.max_order = int(len(container)/2)
+        self.max_order = len(container)
 
     def __repr__(self):
         result = ''
@@ -50,17 +52,21 @@ class CellOutOfBoundsException(Exception):
     pass
 
 
+class EmptyContainerException(Exception):
+    pass
+
+
 def neighbours(container, x, y):
     """ Get the neighbours of the cell with coordinates (x,y).
     """
     container_size = int(len(container))
 
-    if x < -container_size or x >= container_size or y < -container_size or y >= container_size:
-        raise CellOutOfBoundsException
+    if x < 0 or x >= container_size or y < 0 or y >= container_size:
+        raise CellOutOfBoundsException(x, y)
 
-    if x > -container_size:
+    if x > 0:
         yield x-1, y
-    if y > -container_size:
+    if y > 0:
         yield x, y-1
     if x < container_size - 1:
         yield x+1, y
@@ -68,15 +74,41 @@ def neighbours(container, x, y):
         yield x, y+1
 
 
+def child_container(container):
+    order = len(container)
+
+    new_container = deepcopy(container)
+
+    if max(container[0]):
+        insert_pos = 0
+    else:
+        insert_pos = order
+    new_container.insert(insert_pos, [0 for _ in range(order)])
+
+    if max([itemgetter(0)(l) for l in container]):
+        insert_pos = 0
+    else:
+        insert_pos = order
+    
+    for line in new_container:
+        line.insert(insert_pos, 0)
+
+    return new_container
+
+def first(container):
+    order = len(container)
+    for y in range(order):
+        for x in range(order):
+            if container[y][x]:
+                return x, y
+    else:
+        raise EmptyContainerException
+
+
 def children(polyomino):
     """ The children of a polyomino p are all the polyominoes obtained by adding one square to p.
     :type polyomino: Polyomino
     """
-    if polyomino.is_full:
-        raise PolyominoIsFullException
-
-    order = polyomino.max_order
-
     visited = []
 
     def fun(container, x, y):
@@ -86,20 +118,22 @@ def children(polyomino):
             else:
                 visited.append((new_x, new_y))
 
-            if container[new_x][new_y]:
+            if container[new_y][new_x]:
                 yield from fun(container, new_x, new_y)
             else:
                 new_container = deepcopy(container)
-                new_container[new_x][new_y] = 1
+                new_container[new_y][new_x] = 1
                 yield new_container
 
-    for container in fun(polyomino.container, order, order):
-        yield Polyomino(container)
+    _cc = child_container(polyomino.container)
+    _x, _y = first(_cc)
+    for _nc in fun(_cc, _x, _y):
+        yield Polyomino(_nc)
 
 
 def first_polyomino(order):
-    polyomino = Polyomino(empty_container(2*order))
+    polyomino = Polyomino(empty_container(1))
 
-    polyomino.container[order][order] = 1
+    polyomino.container[0][0] = 1
 
     return polyomino
