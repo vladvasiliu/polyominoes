@@ -68,14 +68,6 @@ def neighbours(container, x, y):
         yield x, y+1
 
 
-def filled_neighbours(container, x, y):
-    for new_x, new_y in neighbours(container, x, y):
-        if not container[new_x][new_y]:
-            new_container = deepcopy(container)
-            new_container[new_x][new_y] = 1
-            yield new_container
-
-
 def children(polyomino):
     """ The children of a polyomino p are all the polyominoes obtained by adding one square to p.
     :type polyomino: Polyomino
@@ -85,11 +77,24 @@ def children(polyomino):
 
     order = polyomino.max_order
 
-    for x in range(-order, order):
-        for y in range(-order, order):
-            if polyomino.container[x][y]:
-                for container in filled_neighbours(polyomino.container, x, y):
-                    yield Polyomino(container)
+    visited = []
+
+    def fun(container, x, y):
+        for new_x, new_y in neighbours(container, x, y):
+            if (new_x, new_y) in visited:
+                continue
+            else:
+                visited.append((new_x, new_y))
+
+            if container[new_x][new_y]:
+                yield from fun(container, new_x, new_y)
+            else:
+                new_container = deepcopy(container)
+                new_container[new_x][new_y] = 1
+                yield new_container
+
+    for container in fun(polyomino.container, order, order):
+        yield Polyomino(container)
 
 
 def first_polyomino(order):
