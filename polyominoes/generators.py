@@ -47,9 +47,9 @@ def children(polyomino):
                 new_container[new_y][new_x] = 1
                 yield new_container
 
-    cc = child_container(polyomino.container)
-    fist_x, first_y = first(cc)
-    for _nc in fun(cc, fist_x, first_y):
+    parent_container = child_container(polyomino.container)
+    fist_x, first_y = first(parent_container)
+    for _nc in fun(parent_container, fist_x, first_y):
         yield normalise(Polyomino(_nc))
 
 
