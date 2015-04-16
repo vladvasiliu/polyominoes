@@ -84,20 +84,3 @@ def polyominoes(order):
             new_list.extend(children(polyomino))
         polyomino_list = unique_polyominoes(new_list)
     return list(polyomino_list)
-
-
-def traverse_polyomino(polyomino):
-    container = polyomino.container
-    x, y = first(container)
-
-    yield x, y
-
-    visited = [(x, y)]
-
-    def fun(curr_x, curr_y):
-        for curr_x, curr_y in neighbours(container, curr_x, curr_y):
-            if (curr_x, curr_y) not in visited and container[curr_y][curr_x]:
-                visited.append((curr_x, curr_y))
-                yield curr_x, curr_y
-                yield from fun(curr_x, curr_y)
-    yield from fun(x, y)

@@ -23,17 +23,6 @@ def rotations(polyomino):
         yield rotate(polyomino, times)
 
 
-def translations(polyomino):
-    order = polyomino.max_order
-
-    for x in range(-order + 1, order):
-        for y in range(-order + 1, order):
-            try:
-                yield translate(polyomino, x, y)
-            except TransformationOutOfBoundsException:
-                continue
-
-
 def normalise(polyomino):
     container = polyomino.container
     order = polyomino.max_order
