@@ -55,11 +55,11 @@ def children(polyomino):
 
 def unique_polyominoes(polyomino_iter):
     """ returns unique polyominoes from an iterable containing polyominoes """
-    polyomino_list = list()
+    polyomino_list = set()
 
     for polyomino in polyomino_iter:
         if not polyomino_in_list(polyomino, polyomino_list):
-            polyomino_list.append(polyomino)
+            polyomino_list.add(polyomino)
             yield polyomino
 
 

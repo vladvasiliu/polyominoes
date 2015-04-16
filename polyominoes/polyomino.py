@@ -31,6 +31,9 @@ class Polyomino(object):
         except AttributeError:
             return False
 
+    def __hash__(self):
+        return hash(str(self.container))
+
     @property
     def order(self):
         return sum(chain.from_iterable(self.container))
