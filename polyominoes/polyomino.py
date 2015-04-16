@@ -57,16 +57,10 @@ def child_container(container):
 
     new_container = deepcopy(container)
 
-    if max(container[0]):
-        insert_pos = 0
-    else:
-        insert_pos = order
+    insert_pos = 1 - max(container[0]) and order
     new_container.insert(insert_pos, [0 for _ in range(order)])
 
-    if max([itemgetter(0)(l) for l in container]):
-        insert_pos = 0
-    else:
-        insert_pos = order
+    insert_pos = 1 - max([itemgetter(0)(l) for l in container]) and order
 
     for line in new_container:
         line.insert(insert_pos, 0)
