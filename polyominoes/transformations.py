@@ -10,7 +10,7 @@ class TransformationOutOfBoundsException(Exception):
 def transformations(polyomino):
     for reflected_polyomino in reflections(polyomino):
         for rotated_polyomino in rotations(reflected_polyomino):
-            yield from translations(rotated_polyomino)
+            yield normalise(rotated_polyomino)
 
 
 def reflections(polyomino):
@@ -32,6 +32,24 @@ def translations(polyomino):
                 yield translate(polyomino, x, y)
             except TransformationOutOfBoundsException:
                 continue
+
+
+def normalise(polyomino):
+    container = polyomino.container
+    order = polyomino.max_order
+
+    min_x, min_y = order, order
+
+    for y in range(order):
+        for x in range(order):
+            if container[y][x]:
+                min_x = min(min_x, x)
+                min_y = min(min_y, y)
+
+    if min_x or min_y:
+        return translate(polyomino, -min_x, -min_y)
+    return polyomino
+
 
 
 def translate(polyomino, delta_x, delta_y):
