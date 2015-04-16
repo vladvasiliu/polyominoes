@@ -5,6 +5,10 @@ from polyominoes.polyomino import first_polyomino, child_container, first, Polyo
 from polyominoes.transformations import transformations, normalise
 
 
+class CellOutOfBoundsException(Exception):
+    pass
+
+
 def neighbours(container, x, y):
     """ Get the neighbours of the cell with coordinates (x,y).
     """
@@ -49,8 +53,6 @@ def children(polyomino):
         yield normalise(Polyomino(_nc))
 
 
-
-
 def polyomino_in_list(polyomino, polyomino_list):
     for transformed_polyomino in transformations(polyomino):
         if transformed_polyomino in polyomino_list:
@@ -82,3 +84,20 @@ def polyominoes(order):
             new_list.extend(children(polyomino))
         polyomino_list = unique_polyominoes(new_list)
     return list(polyomino_list)
+
+
+def traverse_polyomino(polyomino):
+    container = polyomino.container
+    _x, _y = first(container)
+
+    yield _x, _y
+
+    visited = [(_x, _y)]
+
+    def fun(container, x, y):
+        for _x, _y in neighbours(container, x, y):
+            if (_x, _y) not in visited and container[_y][_x]:
+                visited.append((_x, _y))
+                yield _x, _y
+                yield from fun(container, _x, _y)
+    yield from fun(container, _x, _y)

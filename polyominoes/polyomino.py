@@ -48,10 +48,6 @@ class PolyominoNotEmptyException(Exception):
     pass
 
 
-class CellOutOfBoundsException(Exception):
-    pass
-
-
 class EmptyContainerException(Exception):
     pass
 
@@ -77,6 +73,7 @@ def child_container(container):
 
     return new_container
 
+
 def first(container):
     order = len(container)
     for y in range(order):
@@ -84,23 +81,6 @@ def first(container):
             if container[y][x]:
                 return x, y
     raise EmptyContainerException
-
-
-def traverse_polyomino(polyomino):
-    container = polyomino.container
-    _x, _y = first(container)
-
-    yield _x, _y
-
-    visited = [(_x, _y)]
-
-    def fun(container, x, y):
-        for _x, _y in neighbours(container, x, y):
-            if (_x, _y) not in visited and container[_y][_x]:
-                visited.append((_x, _y))
-                yield _x, _y
-                yield from fun(container, _x, _y)
-    yield from fun(container, _x, _y)
 
 
 def first_polyomino():
