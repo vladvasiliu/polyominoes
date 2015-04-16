@@ -1,8 +1,8 @@
 from copy import deepcopy
 
-
+from polyominoes.helpers import polyomino_in_list
 from polyominoes.polyomino import first_polyomino, child_container, first, Polyomino
-from polyominoes.transformations import transformations, normalise
+from polyominoes.transformations import normalise
 
 
 class CellOutOfBoundsException(Exception):
@@ -51,13 +51,6 @@ def children(polyomino):
     fist_x, first_y = first(cc)
     for _nc in fun(cc, fist_x, first_y):
         yield normalise(Polyomino(_nc))
-
-
-def polyomino_in_list(polyomino, polyomino_list):
-    for transformed_polyomino in transformations(polyomino):
-        if transformed_polyomino in polyomino_list:
-            return True
-    return False
 
 
 def unique_polyominoes(polyomino_iter):
