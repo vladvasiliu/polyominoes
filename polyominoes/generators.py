@@ -47,9 +47,9 @@ def children(polyomino):
                 new_container[new_y][new_x] = 1
                 yield new_container
 
-    _cc = child_container(polyomino.container)
-    _x, _y = first(_cc)
-    for _nc in fun(_cc, _x, _y):
+    cc = child_container(polyomino.container)
+    fist_x, first_y = first(cc)
+    for _nc in fun(cc, fist_x, first_y):
         yield normalise(Polyomino(_nc))
 
 
@@ -88,16 +88,16 @@ def polyominoes(order):
 
 def traverse_polyomino(polyomino):
     container = polyomino.container
-    _x, _y = first(container)
+    x, y = first(container)
 
-    yield _x, _y
+    yield x, y
 
-    visited = [(_x, _y)]
+    visited = [(x, y)]
 
-    def fun(container, x, y):
-        for _x, _y in neighbours(container, x, y):
-            if (_x, _y) not in visited and container[_y][_x]:
-                visited.append((_x, _y))
-                yield _x, _y
-                yield from fun(container, _x, _y)
-    yield from fun(container, _x, _y)
+    def fun(curr_x, curr_y):
+        for curr_x, curr_y in neighbours(container, curr_x, curr_y):
+            if (curr_x, curr_y) not in visited and container[curr_y][curr_x]:
+                visited.append((curr_x, curr_y))
+                yield curr_x, curr_y
+                yield from fun(curr_x, curr_y)
+    yield from fun(x, y)
