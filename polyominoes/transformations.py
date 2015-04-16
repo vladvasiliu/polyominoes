@@ -1,4 +1,5 @@
 from copy import deepcopy
+from itertools import product
 
 from polyominoes.polyomino import empty_container, Polyomino
 
@@ -29,15 +30,12 @@ def normalise(polyomino):
 
     min_x, min_y = order, order
 
-    for y in range(order):
-        for x in range(order):
-            if container[y][x]:
-                min_x = min(min_x, x)
-                min_y = min(min_y, y)
+    for x, y in product(range(order), repeat=2):
+        if container[y][x]:
+            min_x = min(min_x, x)
+            min_y = min(min_y, y)
 
-    if min_x or min_y:
-        return translate(polyomino, -min_x, -min_y)
-    return polyomino
+    return translate(polyomino, -min_x, -min_y)
 
 
 def translate(polyomino, delta_x, delta_y):
@@ -45,15 +43,14 @@ def translate(polyomino, delta_x, delta_y):
     container_size = len(old_container)
     new_container = empty_container(container_size)
 
-    for src_y in range(container_size):
-        for src_x in range(container_size):
-            if old_container[src_y][src_x]:
-                dst_x = src_x + delta_x
-                dst_y = src_y + delta_y
+    for src_x, src_y in product(range(container_size), repeat=2):
+        if old_container[src_y][src_x]:
+            dst_x = src_x + delta_x
+            dst_y = src_y + delta_y
 
-                if dst_x < 0 or dst_x > container_size - 1 or dst_y < 0 or dst_y > container_size - 1:
-                    raise TransformationOutOfBoundsException
-                new_container[dst_y][dst_x] = 1
+            if dst_x < 0 or dst_x > container_size - 1 or dst_y < 0 or dst_y > container_size - 1:
+                raise TransformationOutOfBoundsException
+            new_container[dst_y][dst_x] = 1
     return Polyomino(new_container)
 
 
@@ -62,10 +59,9 @@ def rotate_90(container):
     container_size = len(old_container)
     new_container = empty_container(container_size)
 
-    for y in range(container_size):
-        for x in range(container_size):
-            if old_container[y][x]:
-                new_container[x][container_size - 1 - y] = 1
+    for x, y in product(range(container_size), repeat=2):
+        if old_container[y][x]:
+            new_container[x][container_size - 1 - y] = 1
 
     return new_container
 
@@ -75,10 +71,9 @@ def rotate_180(container):
     container_size = len(old_container)
     new_container = empty_container(container_size)
 
-    for y in range(container_size):
-        for x in range(container_size):
-            if old_container[y][x]:
-                new_container[container_size - 1 - y][container_size - 1 - x] = 1
+    for x, y in product(range(container_size), repeat=2):
+        if old_container[y][x]:
+            new_container[container_size - 1 - y][container_size - 1 - x] = 1
 
     return new_container
 
@@ -88,10 +83,9 @@ def rotate_270(container):
     container_size = len(old_container)
     new_container = empty_container(container_size)
 
-    for y in range(container_size):
-        for x in range(container_size):
-            if old_container[y][x]:
-                new_container[container_size - 1 - x][y] = 1
+    for x, y in product(range(container_size), repeat=2):
+        if old_container[y][x]:
+            new_container[container_size - 1 - x][y] = 1
 
     return new_container
 

@@ -1,5 +1,5 @@
 from copy import deepcopy
-from itertools import chain
+from itertools import chain, product
 from operator import itemgetter
 
 __author__ = 'vlad'
@@ -70,10 +70,9 @@ def child_container(container):
 
 def first(container):
     order = len(container)
-    for y in range(order):
-        for x in range(order):
-            if container[y][x]:
-                return x, y
+    for x, y in product(range(order), repeat=2):
+        if container[y][x]:
+            return x, y
     raise EmptyContainerException
 
 
