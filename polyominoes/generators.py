@@ -1,6 +1,6 @@
 from copy import deepcopy
 
-from polyominoes.helpers import polyomino_in_list
+from polyominoes.helpers import contains_polyomino
 from polyominoes.polyomino import first_polyomino, child_container, first, Polyomino
 from polyominoes.transformations import normalise
 
@@ -55,11 +55,11 @@ def children(polyomino):
 
 def unique_polyominoes(polyomino_iter):
     """ returns unique polyominoes from an iterable containing polyominoes """
-    polyomino_list = set()
+    polyomino_set = set()
 
     for polyomino in polyomino_iter:
-        if not polyomino_in_list(polyomino, polyomino_list):
-            polyomino_list.add(polyomino)
+        if not contains_polyomino(polyomino_set, polyomino):
+            polyomino_set.add(polyomino)
             yield polyomino
 
 
