@@ -39,19 +39,16 @@ def normalise(polyomino):
 
 
 def translate(polyomino, delta_x, delta_y):
-    old_container = polyomino.container
-    container_size = len(old_container)
-    new_container = empty_container(container_size)
-
-    for src_x, src_y in product(range(container_size), repeat=2):
-        if old_container[src_y][src_x]:
-            dst_x = src_x + delta_x
-            dst_y = src_y + delta_y
-
-            if dst_x < 0 or dst_x > container_size - 1 or dst_y < 0 or dst_y > container_size - 1:
-                raise TransformationOutOfBoundsException
-            new_container[dst_y][dst_x] = 1
-    return Polyomino(new_container)
+    if delta_x or delta_y:
+        container = polyomino.container
+        order = polyomino.max_order
+        for dst_x, dst_y in product(range(order + delta_x), range(order + delta_y)):
+            src_x = dst_x - delta_x
+            src_y = dst_y - delta_y
+            if container[src_y][src_x]:
+                container[dst_y][dst_x] = 1
+                container[src_y][src_x] = 0
+    return polyomino
 
 
 def rotate_90(container):
