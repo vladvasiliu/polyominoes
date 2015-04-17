@@ -1,7 +1,7 @@
 from copy import deepcopy
 from itertools import product
 
-from polyominoes.polyomino import empty_container, Polyomino
+from polyominoes.polyomino import Polyomino
 
 
 class TransformationOutOfBoundsException(Exception):
@@ -19,7 +19,7 @@ def reflections(polyomino):
 
 
 def rotations(polyomino):
-    for times in range(4):
+    for _ in range(4):
         yield rotate(polyomino)
 
 

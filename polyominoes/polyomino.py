@@ -5,10 +5,6 @@ from operator import itemgetter
 __author__ = 'vlad'
 
 
-def empty_container(size):
-    return [[0 for _ in range(size)] for _ in range(size)]
-
-
 class Polyomino(object):
     """ A polyomino is an array of booleans.
     """
@@ -80,8 +76,6 @@ def first(container):
 
 
 def first_polyomino():
-    polyomino = Polyomino(empty_container(1))
-
-    polyomino.container[0][0] = 1
+    polyomino = Polyomino([[1]])
 
     return polyomino
