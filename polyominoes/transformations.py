@@ -20,7 +20,7 @@ def reflections(polyomino):
 
 def rotations(polyomino):
     for times in range(4):
-        yield normalise(rotate(polyomino))
+        yield rotate(polyomino)
 
 
 def normalise(polyomino):
@@ -51,16 +51,11 @@ def translate(polyomino, delta_x, delta_y):
 
 
 def rotate(polyomino):
-    old_container = polyomino.container
-    container_size = polyomino.max_order
-    new_container = empty_container(container_size)
-
-    for x, y in product(range(container_size), repeat=2):
-        if old_container[y][x]:
-            new_container[x][container_size - 1 - y] = 1
-
-    polyomino.container = new_container
-    return polyomino
+    """ Rotates the polyomino 90 degrees clockwise.
+        That is: transpose, that reverse each row
+    """
+    polyomino.container = [list(row) for row in zip(*polyomino.container[::-1])]
+    return normalise(polyomino)
 
 
 def reflect(polyomino):
