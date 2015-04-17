@@ -1,7 +1,4 @@
-from copy import deepcopy
 from itertools import product
-
-from polyominoes.polyomino import Polyomino
 
 
 class TransformationOutOfBoundsException(Exception):
@@ -59,10 +56,6 @@ def rotate(polyomino):
 
 
 def reflect(polyomino):
-    old_container = polyomino.container
-    new_container = deepcopy(old_container)
-
-    for line in new_container:
-        line.reverse()
-
-    return Polyomino(new_container)
+    for row in polyomino.container:
+        row.reverse()
+    return polyomino
