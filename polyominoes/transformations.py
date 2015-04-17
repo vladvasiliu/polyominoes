@@ -10,8 +10,7 @@ class TransformationOutOfBoundsException(Exception):
 
 def transformations(polyomino):
     for reflected_polyomino in reflections(polyomino):
-        for rotated_polyomino in rotations(reflected_polyomino):
-            yield normalise(rotated_polyomino)
+        yield from rotations(reflected_polyomino)
 
 
 def reflections(polyomino):
@@ -21,7 +20,7 @@ def reflections(polyomino):
 
 def rotations(polyomino):
     for times in range(4):
-        yield rotate(polyomino, times)
+        yield normalise(rotate(polyomino))
 
 
 def normalise(polyomino):
@@ -51,56 +50,17 @@ def translate(polyomino, delta_x, delta_y):
     return polyomino
 
 
-def rotate_90(container):
-    old_container = container
-    container_size = len(old_container)
+def rotate(polyomino):
+    old_container = polyomino.container
+    container_size = polyomino.max_order
     new_container = empty_container(container_size)
 
     for x, y in product(range(container_size), repeat=2):
         if old_container[y][x]:
             new_container[x][container_size - 1 - y] = 1
 
-    return new_container
-
-
-def rotate_180(container):
-    old_container = container
-    container_size = len(old_container)
-    new_container = empty_container(container_size)
-
-    for x, y in product(range(container_size), repeat=2):
-        if old_container[y][x]:
-            new_container[container_size - 1 - y][container_size - 1 - x] = 1
-
-    return new_container
-
-
-def rotate_270(container):
-    old_container = container
-    container_size = len(old_container)
-    new_container = empty_container(container_size)
-
-    for x, y in product(range(container_size), repeat=2):
-        if old_container[y][x]:
-            new_container[container_size - 1 - x][y] = 1
-
-    return new_container
-
-
-def rotate(polyomino, times):
-    """one rotation is 90 degrees clockwise
-    """
-    container = polyomino.container
-    times %= 4
-
-    if times == 1:
-        return Polyomino(rotate_90(container))
-    elif times == 2:
-        return Polyomino(rotate_180(container))
-    elif times == 3:
-        return Polyomino(rotate_270(container))
-    else:
-        return polyomino
+    polyomino.container = new_container
+    return polyomino
 
 
 def reflect(polyomino):
