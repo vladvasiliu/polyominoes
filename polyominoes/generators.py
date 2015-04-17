@@ -31,14 +31,14 @@ def children(polyomino):
     """ The children of a polyomino p are all the polyominoes obtained by adding one square to p.
     :type polyomino: Polyomino
     """
-    visited = []
+    visited = set()
 
     def fun(container, x, y):
         for new_x, new_y in neighbours(container, x, y):
             if (new_x, new_y) in visited:
                 continue
             else:
-                visited.append((new_x, new_y))
+                visited.add((new_x, new_y))
 
             if container[new_y][new_x]:
                 yield from fun(container, new_x, new_y)
