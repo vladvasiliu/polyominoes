@@ -1,5 +1,6 @@
 from unittest import TestCase
-from generators import polyominoes
+
+from polyominoes.generators import polyominoes
 
 
 class TestAll(TestCase):
