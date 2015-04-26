@@ -30,14 +30,6 @@ class Polyomino(object):
     def __hash__(self):
         return hash(str(self.container))
 
-    @property
-    def order(self):
-        return sum(chain.from_iterable(self.container))
-
-    @property
-    def is_full(self):
-        return self.order == self.max_order
-
 
 class PolyominoIsFullException(Exception):
     pass
