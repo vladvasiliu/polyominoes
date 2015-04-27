@@ -45,15 +45,13 @@ def rotate(polyomino):
         That is: transpose, that reverse each row
     """
     old_container = polyomino.container
-    order = polyomino.max_order
-    new_container = {(order - 1 - y, x) for x, y in old_container}
+    new_container = {(-y, x) for x, y in old_container}
     polyomino.container = new_container
     return polyomino
 
 
 def reflect(polyomino):
     old_container = polyomino.container
-    order = polyomino.max_order
-    new_container = {(order - 1 - x, y) for x, y in old_container}
+    new_container = {(-x, y) for x, y in old_container}
     polyomino.container = new_container
     return polyomino
