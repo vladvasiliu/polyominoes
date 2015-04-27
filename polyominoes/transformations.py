@@ -1,3 +1,4 @@
+from operator import itemgetter
 from polyomino import Polyomino
 
 
@@ -22,14 +23,9 @@ def rotations(polyomino):
 
 def normalise(polyomino):
     container = polyomino.container
-    order = polyomino.max_order
 
-    min_x = order
-    min_y = order
-
-    for x, y in container:
-        min_x = min(min_x, x)
-        min_y = min(min_y, y)
+    min_x = min(container, key=itemgetter(0))[0]
+    min_y = min(container, key=itemgetter(1))[1]
 
     delta_x = 0 - min_x
     delta_y = 0 - min_y
