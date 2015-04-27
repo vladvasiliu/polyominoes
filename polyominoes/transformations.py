@@ -11,13 +11,13 @@ def transformations(polyomino):
 
 
 def reflections(polyomino):
-    yield polyomino
-    yield reflect(polyomino)
+    yield normalise(polyomino)
+    yield normalise(reflect(polyomino))
 
 
 def rotations(polyomino):
     for _ in range(4):
-        yield rotate(polyomino)
+        yield normalise(rotate(polyomino))
 
 
 def normalise(polyomino):
@@ -52,7 +52,7 @@ def rotate(polyomino):
     order = polyomino.max_order
     new_container = {(order - 1 - y, x) for x, y in old_container}
     polyomino.container = new_container
-    return normalise(polyomino)
+    return polyomino
 
 
 def reflect(polyomino):
@@ -60,4 +60,4 @@ def reflect(polyomino):
     order = polyomino.max_order
     new_container = {(order - 1 - x, y) for x, y in old_container}
     polyomino.container = new_container
-    return normalise(polyomino)
+    return polyomino
