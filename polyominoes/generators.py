@@ -33,10 +33,9 @@ def unique_polyominoes(polyomino_iter):
     polyomino_set = set()
 
     for polyomino in polyomino_iter:
-        normalised_polyomino = normalise(polyomino)
-        if not contains_polyomino(polyomino_set, normalised_polyomino):
-            polyomino_set.add(normalised_polyomino)
-            yield normalised_polyomino
+        if not contains_polyomino(polyomino_set, polyomino):
+            polyomino_set.add(polyomino)
+            yield polyomino
 
 
 def polyominoes(order):
