@@ -2,7 +2,6 @@ from copy import deepcopy
 
 from polyominoes.helpers import contains_polyomino
 from polyominoes.polyomino import first_polyomino, Polyomino
-from transformations import normalise
 
 
 def neighbours(x, y):
@@ -52,4 +51,3 @@ def polyominoes(order):
             new_list.extend(children(polyomino))
         polyomino_list = unique_polyominoes(new_list)
     return list(polyomino_list)
-

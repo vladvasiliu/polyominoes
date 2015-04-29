@@ -1,5 +1,4 @@
 from operator import itemgetter
-from polyomino import Polyomino
 
 
 class TransformationOutOfBoundsException(Exception):
