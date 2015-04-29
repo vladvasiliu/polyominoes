@@ -29,6 +29,12 @@ class TestReflect(TestCase):
         expected_polyomino = Polyomino({(-3, 2), (-2, 2), (-1, -2), (-1, -1), (-1, 0), (-1, 1), (-1, 2)})
         self.assertEqual(reflected_polyomino, expected_polyomino)
 
+    def test_diagonal_across_origin(self):
+        polyomino = Polyomino({(0, 0), (-1, 1), (1, -1)})
+        reflected_polyomino = reflect(polyomino)
+        expected_polyomino = Polyomino({(0, 0), (-1, -1), (1, 1)})
+        self.assertEqual(reflected_polyomino, expected_polyomino)
+
 
 class TestRotate(TestCase):
     def test_all_corners_full(self):
