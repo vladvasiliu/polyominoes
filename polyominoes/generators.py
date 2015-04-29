@@ -52,3 +52,4 @@ def polyominoes(order):
             new_list.extend(children(polyomino))
         polyomino_list = unique_polyominoes(new_list)
     return list(polyomino_list)
+
