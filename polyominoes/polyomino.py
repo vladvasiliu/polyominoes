@@ -11,6 +11,7 @@ class Polyomino(object):
     """
     def __init__(self, container):
         self.max_order = len(container)
+        self._container = None
         self.container = container
 
     def __repr__(self):
@@ -30,7 +31,15 @@ class Polyomino(object):
             return False
 
     def __hash__(self):
-        return hash(str(self.container))
+        return hash(self.container)
+
+    @property
+    def container(self):
+        return self._container
+
+    @container.setter
+    def container(self, container):
+        self._container = frozenset(container)
 
 
 class PolyominoIsFullException(Exception):

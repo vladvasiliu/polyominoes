@@ -1,7 +1,6 @@
-from copy import deepcopy
-
-from polyominoes.helpers import contains_polyomino
+from helpers import contains_polyomino
 from polyominoes.polyomino import first_polyomino, Polyomino
+from transformations import transformations
 
 
 def neighbours(x, y):
@@ -22,7 +21,7 @@ def children(polyomino):
         for neighbour in neighbours(x, y):
             if neighbour not in visited and neighbour not in parent_container:
                 visited.add(neighbour)
-                new_container = deepcopy(parent_container)
+                new_container = set(parent_container)
                 new_container.add(neighbour)
                 yield Polyomino(new_container)
 

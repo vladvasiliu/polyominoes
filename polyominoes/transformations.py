@@ -11,13 +11,13 @@ def transformations(polyomino):
 
 
 def reflections(polyomino):
-    yield normalise(polyomino)
-    yield normalise(reflect(polyomino))
+    yield polyomino
+    yield reflect(polyomino)
 
 
 def rotations(polyomino):
     for _ in range(4):
-        yield normalise(rotate(polyomino))
+        yield rotate(polyomino)
 
 
 def normalise(polyomino):
