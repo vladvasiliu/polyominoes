@@ -1,3 +1,8 @@
+from copy import deepcopy
+
+from polyominoes.transformations import normalise
+
+
 __author__ = 'vlad'
 
 
@@ -9,11 +14,12 @@ class Polyomino(object):
         self.container = container
 
     def __repr__(self):
-        result = ''
+        result = '\n'
 
+        normalised_self = normalise(deepcopy(self))
         for y in range(self.max_order):
             for x in range(self.max_order):
-                result += 'X' if (x, y) in self.container else '.'
+                result += 'X' if (x, y) in normalised_self.container else '.'
             result += '\n'
         return result
 
