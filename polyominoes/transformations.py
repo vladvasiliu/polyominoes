@@ -25,3 +25,15 @@ def rotate(container):
 def reflect(container):
     new_container = {(-x, y) for x, y in container}
     return new_container
+
+
+def reflections(container):
+    yield container
+    yield reflect(container)
+
+
+def rotations(container):
+    for _ in range(4):
+        container = rotate(container)
+        yield container
+

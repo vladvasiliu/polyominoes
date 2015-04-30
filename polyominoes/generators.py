@@ -1,5 +1,5 @@
 from polyominoes.polyomino import first_polyomino, Polyomino
-from polyominoes.transformations import rotate, reflect, normalise
+from polyominoes.transformations import rotations, reflections, normalise
 
 
 def neighbours(x, y):
@@ -26,16 +26,16 @@ def children(polyomino):
 
 
 def unique_polyominoes(polyomino_iter):
-    """ returns unique polyominoes from an iterable containing polyominoes """
+    """ returns a set of unique polyominoes from an iterable containing polyominoes """
     polyomino_set = set()
 
     for polyomino in polyomino_iter:
-        for transformed_polyomino in transformations(polyomino):
-            if transformed_polyomino in polyomino_set:
+        for sibling in siblings(polyomino):
+            if sibling in polyomino_set:
                 break
         else:
-            polyomino_set.add(transformed_polyomino)
-            yield transformed_polyomino
+            polyomino_set.add(sibling)
+            yield sibling
 
 
 def polyominoes(order):
@@ -51,24 +51,13 @@ def polyominoes(order):
         for polyomino in polyomino_list:
             new_list.extend(children(polyomino))
         polyomino_list = unique_polyominoes(new_list)
-    return list(polyomino_list)
+    yield from  polyomino_list
 
 
-def transformations(polyomino):
+def siblings(polyomino):
     orig_container = polyomino.container
     for reflected_container in reflections(orig_container):
         for rotated_container in rotations(reflected_container):
             normalised_container = normalise(rotated_container)
             yield Polyomino(normalised_container)
-
-
-def reflections(container):
-    yield container
-    yield reflect(container)
-
-
-def rotations(container):
-    for _ in range(4):
-        container = rotate(container)
-        yield container
 
