@@ -1,10 +1,6 @@
 from operator import itemgetter
 
 
-class TransformationOutOfBoundsException(Exception):
-    pass
-
-
 def normalise(container):
     """ Translates the polyomino so that all coordinates are positive and minimal.
     """
