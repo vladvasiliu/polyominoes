@@ -1,5 +1,3 @@
-from copy import deepcopy
-
 from polyominoes.transformations import normalise
 
 
@@ -7,20 +5,19 @@ __author__ = 'vlad'
 
 
 class Polyomino(object):
-    """ A polyomino is an array of booleans.
+    """ A polyomino is a set of coordinates. It's immutable.
     """
     def __init__(self, container):
         self.max_order = len(container)
-        self._container = None
-        self.container = container
+        self._container = frozenset(container)
 
     def __repr__(self):
         result = '\n'
 
-        normalised_self = normalise(deepcopy(self))
+        normalised_container = normalise(self.container)
         for y in range(self.max_order):
             for x in range(self.max_order):
-                result += 'X' if (x, y) in normalised_self.container else '.'
+                result += 'X' if (x, y) in normalised_container else '.'
             result += '\n'
         return result
 
@@ -36,10 +33,6 @@ class Polyomino(object):
     @property
     def container(self):
         return self._container
-
-    @container.setter
-    def container(self, container):
-        self._container = frozenset(container)
 
 
 class PolyominoIsFullException(Exception):

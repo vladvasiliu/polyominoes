@@ -5,50 +5,27 @@ class TransformationOutOfBoundsException(Exception):
     pass
 
 
-def transformations(polyomino):
-    for reflected_polyomino in reflections(polyomino):
-        yield from rotations(reflected_polyomino)
-
-
-def reflections(polyomino):
-    yield polyomino
-    yield reflect(polyomino)
-
-
-def rotations(polyomino):
-    for _ in range(4):
-        yield rotate(polyomino)
-
-
-def normalise(polyomino):
+def normalise(container):
     """ Translates the polyomino so that all coordinates are positive and minimal.
     """
-    container = polyomino.container
-
     delta_x = - min(container, key=itemgetter(0))[0]
     delta_y = - min(container, key=itemgetter(1))[1]
 
-    return translate(polyomino, delta_x, delta_y)
+    return translate(container, delta_x, delta_y)
 
 
-def translate(polyomino, delta_x, delta_y):
-    old_container = polyomino.container
-    new_container = {(x + delta_x, y + delta_y) for x, y in old_container}
-    polyomino.container = new_container
-    return polyomino
+def translate(container, delta_x, delta_y):
+    new_container = {(x + delta_x, y + delta_y) for x, y in container}
+    return new_container
 
 
-def rotate(polyomino):
-    """ Rotates the polyomino 90 degrees clockwise around (0, 0).
+def rotate(container):
+    """ Rotates the container 90 degrees clockwise around (0, 0).
     """
-    old_container = polyomino.container
-    new_container = {(-y, x) for x, y in old_container}
-    polyomino.container = new_container
-    return polyomino
+    new_container = {(-y, x) for x, y in container}
+    return new_container
 
 
-def reflect(polyomino):
-    old_container = polyomino.container
-    new_container = {(-x, y) for x, y in old_container}
-    polyomino.container = new_container
-    return polyomino
+def reflect(container):
+    new_container = {(-x, y) for x, y in container}
+    return new_container

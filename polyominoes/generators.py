@@ -1,5 +1,5 @@
-from helpers import contains_polyomino
 from polyominoes.polyomino import first_polyomino, Polyomino
+from polyominoes.transformations import rotate, reflect, normalise
 
 
 def neighbours(x, y):
@@ -30,9 +30,12 @@ def unique_polyominoes(polyomino_iter):
     polyomino_set = set()
 
     for polyomino in polyomino_iter:
-        if not contains_polyomino(polyomino_set, polyomino):
-            polyomino_set.add(polyomino)
-            yield polyomino
+        for transformed_polyomino in transformations(polyomino):
+            if transformed_polyomino in polyomino_set:
+                break
+        else:
+            polyomino_set.add(transformed_polyomino)
+            yield transformed_polyomino
 
 
 def polyominoes(order):
@@ -49,3 +52,23 @@ def polyominoes(order):
             new_list.extend(children(polyomino))
         polyomino_list = unique_polyominoes(new_list)
     return list(polyomino_list)
+
+
+def transformations(polyomino):
+    orig_container = polyomino.container
+    for reflected_container in reflections(orig_container):
+        for rotated_container in rotations(reflected_container):
+            normalised_container = normalise(rotated_container)
+            yield Polyomino(normalised_container)
+
+
+def reflections(container):
+    yield container
+    yield reflect(container)
+
+
+def rotations(container):
+    for _ in range(4):
+        container = rotate(container)
+        yield container
+
