@@ -27,3 +27,6 @@ class TestAll(TestCase):
 
     def test_n_9(self):
         self.assertEqual(1285, len(polyominoes(9)))
+
+    def test_n_10(self):
+        self.assertEqual(4655, len(polyominoes(10)))
