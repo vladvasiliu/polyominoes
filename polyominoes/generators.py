@@ -60,4 +60,3 @@ def siblings(polyomino):
         for rotated_container in rotations(reflected_container):
             normalised_container = normalise(rotated_container)
             yield Polyomino(normalised_container)
-

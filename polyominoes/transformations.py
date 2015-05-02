@@ -36,4 +36,3 @@ def rotations(container):
     for _ in range(4):
         container = rotate(container)
         yield container
-
