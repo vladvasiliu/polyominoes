@@ -33,6 +33,7 @@ def reflections(container):
 
 
 def rotations(container):
-    for _ in range(4):
+    yield container
+    for _ in range(3):
         container = rotate(container)
         yield container

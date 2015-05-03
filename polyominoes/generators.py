@@ -51,7 +51,7 @@ def polyominoes(order):
         for polyomino in polyomino_list:
             new_list.extend(children(polyomino))
         polyomino_list = unique_polyominoes(new_list)
-    yield from  polyomino_list
+    yield from polyomino_list
 
 
 def siblings(polyomino):
