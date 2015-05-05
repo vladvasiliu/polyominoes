@@ -50,7 +50,7 @@ class State(object):
         last_num = max(self.used_squares, default=-1)
         return [num for num in self.numbered_squares if num > last_num and num not in self.used_squares]
 
-    def _add_square(self, square_number):
+    def add_square(self, square_number):
         if square_number not in self.free_squares:
             raise IllegalSquareException("requested: %s, available: %s" % (square_number, self.free_squares))
 
@@ -65,13 +65,13 @@ class State(object):
     def children(self):
         for free_square in self.free_squares:
             new_state = deepcopy(self)
-            new_state._add_square(free_square)
+            new_state.add_square(free_square)
             yield new_state
 
     @classmethod
     def generate(cls, order):
         states = [cls()]
-        for _ in range (order):
+        for _ in range(order):
             children = []
             for state in states:
                 children.extend(state.children)
