@@ -45,6 +45,7 @@ class Node(object):
         self.parent_node = parent_node
         self.base_cell = base_cell
         self.neighbours, self.max_number = self.__neighbours()
+        self.neighbour_coordinates = list(self._all_neighbour_coordinates())
 
     def __neighbours(self):
         neighbours = []
@@ -56,7 +57,7 @@ class Node(object):
         else:
             next_number = self.parent_node.max_number
             for neighbour in self.base_cell.coordinates.neighbours():
-                if neighbour not in self.parent_node.all_neighbour_coordinates():
+                if neighbour not in self.parent_node.neighbour_coordinates:
                     next_number += 1
                     neighbours.append(Cell(next_number, neighbour))
         return neighbours, next_number
@@ -65,11 +66,11 @@ class Node(object):
     def root(cls):
         return cls(None, Cell.origin())
 
-    def all_neighbour_coordinates(self):
+    def _all_neighbour_coordinates(self):
         for neighbour in self.neighbours:
             yield neighbour.coordinates
         if self.parent_node:
-            yield from self.parent_node.all_neighbour_coordinates()
+            yield from self.parent_node.neighbour_coordinates
 
     def path(self):
         yield self.base_cell
