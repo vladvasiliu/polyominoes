@@ -81,7 +81,7 @@ class Node(object):
         current = self.parent_node
         while current:
             for neighbour in current.neighbours:
-                if neighbour.number > self.base_cell.number and neighbour not in self.path():
+                if neighbour.number > self.base_cell.number:
                     yield neighbour
             current = current.parent_node
 
@@ -99,3 +99,15 @@ class Node(object):
                 new_result.extend(r.children())
             result = new_result
         return result
+
+
+if __name__ == '__main__':
+    from datetime import datetime
+    import sys
+
+    order = int(sys.argv[1])
+    start = datetime.now()
+    count = len(Node.order(order))
+    stop = datetime.now()
+    total = (stop - start).total_seconds()
+    print("order: %s \t count: %s \t time: %s" % (order, count, total))
