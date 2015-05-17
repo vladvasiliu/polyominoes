@@ -80,10 +80,13 @@ class Node(object):
     def eligible_neighbours(self):
         yield from self.neighbours
         current = self.parent_node
-        while current:
+        stop = False
+        while current and not stop:
             for neighbour in current.neighbours:
                 if neighbour.number > self.base_cell.number:
                     yield neighbour
+                else:
+                    stop = True
             current = current.parent_node
 
     def children(self):
