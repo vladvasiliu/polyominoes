@@ -1,6 +1,8 @@
 from polyominoes.polyomino import first_polyomino, Polyomino
 from polyominoes.transformations import rotations, reflections, normalise
 
+from datetime import datetime
+
 
 def neighbours(x, y):
     yield x+1, y
@@ -46,7 +48,8 @@ def polyominoes(order):
     if order == 1:
         return polyomino_list
 
-    for _ in range(2, order+1):
+    for x in range(2, order+1):
+        print(f"{datetime.now()} - Current order: {x}")
         new_list = []
         for polyomino in polyomino_list:
             new_list.extend(children(polyomino))
